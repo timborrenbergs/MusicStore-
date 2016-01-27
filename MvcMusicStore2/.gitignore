@@ -1,0 +1,110 @@
+﻿# JetBrains IDE
+.idea
+
+# Visual Studio
+.vs
+
+# NuGet Package manager
+packages/*
+!packages/repositories.config
+packages/build/
+
+# Build objects
+bin/
+csx/
+obj/
+rcf/
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Cache
+*_i.c
+*_p.c
+*_i.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+# Other
+sql/
+*.Cache
+ClientBin/
+[Ss]tyle[Cc]op.*
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+*.pubxml
+*.pubxml.user
+
+# Sql Server
+App_Data/*.mdf
+App_Data/*.ldf
+
+
+# Windows detritus
+FakesAssemblies/
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Node, NPM, Grunt, Bower
+bower_components
+node_modules
+
+# Asset Generation
+frontend/css
+frontend/js
+frontend/fonts
+frontend/images
+frontend/Cache
+
+# Generated
+#frontend/Web.config
+
+# Config
+frontend/config/*.config
+management/config/*.config
+management/Properties/PublishProfiles
+
+# OSX
+.ds_store

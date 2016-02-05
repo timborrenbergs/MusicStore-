@@ -6,11 +6,13 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Mvc3ToolsUpdateWeb_Default.Models;
+using MvcMusicStore2.Models;
 
 namespace Mvc3ToolsUpdateWeb_Default.Controllers
 {
     public class AccountController : Controller
     {
+        MusicStoreEntities storeDB = new MusicStoreEntities();
 
         //
         // GET: /Account/LogOn
@@ -28,23 +30,35 @@ namespace Mvc3ToolsUpdateWeb_Default.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
+
+                var account = storeDB.Accounts.Single(a => a.UserName == model.UserName && a.Password == model.Password);
+                if (account == null)
                 {
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
                 }
+                else
+                {
+                    Session["AccountID"] = account.AccountID;
+                    return RedirectToAction("Index", "Home");
+                }
+
+                //if (Membership.ValidateUser(model.UserName, model.Password))
+                //{
+                //    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                //    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                //        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                //    {
+                //        return Redirect(returnUrl);
+                //    }
+                //    else
+                //    {
+                //        return RedirectToAction("Index", "Home");
+                //    }
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                //}
             }
 
             // If we got this far, something failed, redisplay form
@@ -56,8 +70,8 @@ namespace Mvc3ToolsUpdateWeb_Default.Controllers
 
         public ActionResult LogOff()
         {
-            FormsAuthentication.SignOut();
-
+            //FormsAuthentication.SignOut();
+            Session["AccountID"] = null;
             return RedirectToAction("Index", "Home");
         }
 
@@ -77,19 +91,26 @@ namespace Mvc3ToolsUpdateWeb_Default.Controllers
         {
             if (ModelState.IsValid)
             {
+                storeDB.Accounts.Add(new Account() {
+                    UserName = model.UserName,
+                    Password = model.Password,
+                    Email = model.Email
+                });
+                storeDB.SaveChanges();
+                return RedirectToAction("Index", "Home");
                 // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, "question", "answer", true, null, out createStatus);
+                //MembershipCreateStatus createStatus;
+                //Membership.CreateUser(model.UserName, model.Password, model.Email, "question", "answer", true, null, out createStatus);
 
-                if (createStatus == MembershipCreateStatus.Success)
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
-                }
+                //if (createStatus == MembershipCreateStatus.Success)
+                //{
+                //    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+                //    return RedirectToAction("Index", "Home");
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", ErrorCodeToString(createStatus));
+                //}
             }
 
             // If we got this far, something failed, redisplay form

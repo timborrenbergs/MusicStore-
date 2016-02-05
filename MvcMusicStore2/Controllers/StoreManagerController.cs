@@ -17,6 +17,10 @@ namespace MvcMusicStore2.Controllers
         // GET: StoreManager
         public ActionResult Index()
         {
+            if (Session["AccountID"] == null)
+            {
+                return RedirectToAction("Logon", "Account"); 
+            }
             var albums = db.Albums.Include(a => a.Artist).Include(a => a.Genre);
             return View(albums.ToList());
         }

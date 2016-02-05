@@ -22,7 +22,7 @@ namespace MvcMusicStore2
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Default", // Route name
+                "Home", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
@@ -31,6 +31,9 @@ namespace MvcMusicStore2
 
         protected void Application_Start()
         {
+            System.Data.Entity.Database.SetInitializer(
+            new MvcMusicStore2.Models.SampleData());
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
